@@ -1,42 +1,53 @@
-import React, {useEffect} from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-  ActivityIndicator,
-  StyleSheet,
-} from 'react-native';
+import React, {useState} from 'react';
+import {View, FlatList, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {category} from '../data/data';
+import {useDispatch} from 'react-redux';
+import {fetchProducts} from '../redux/Slice/productSlice';
 
-const Categories = () => {
+export const CategoryList = () => {
+  const dispatch = useDispatch();
+  const [selectedCategory, setSelectedCategory] = useState(1);
+
+  const handleSearch = (name, id) => {
+    setSelectedCategory(id);
+    dispatch(fetchProducts(name));
+  };
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
         data={category}
-        horizontal
         keyExtractor={item => item.id.toString()}
-        contentContainerStyle={styles.container}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.list}
         renderItem={({item}) => (
-          <View style={styles.category}>
-            <Text style={styles.title}>{item.name}</Text>
-          </View>
+          <TouchableOpacity
+            onPress={() => handleSearch(item.name, item.id)}
+            style={styles.categoryItem}>
+            <Text style={styles.categoryText}>{item.name}</Text>
+          </TouchableOpacity>
         )}
       />
     </View>
   );
 };
 
-export default Categories;
-
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
-    paddingHorizontal: 10,
-    marginHorizontal: 10,
-    marginVertical: 20,
+    paddingVertical: 10,
   },
-  category: {
-    marginHorizontal: 10,
+  list: {
+    paddingHorizontal: 10,
+  },
+  categoryItem: {
+    backgroundColor: '#eee',
+    borderRadius: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    marginRight: 10,
+  },
+  categoryText: {
+    fontSize: 14,
+    color: '#333',
   },
 });

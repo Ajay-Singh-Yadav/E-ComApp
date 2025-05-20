@@ -2,10 +2,24 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Async thunk to fetch products
+// export const fetchProducts = createAsyncThunk(
+//   'products/fetchProducts',
+//   async () => {
+//     const response = await axios.get('https://fakestoreapi.com/products');
+//     return response.data;
+//   },
+// );
+
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
-  async () => {
-    const response = await axios.get('https://fakestoreapi.com/products');
+  async category => {
+    const url =
+      category === 'All'
+        ? 'https://fakestoreapi.com/products?limit=20'
+        : `https://fakestoreapi.com/products/category/${category}`;
+
+    const response = await axios.get(url);
+
     return response.data;
   },
 );

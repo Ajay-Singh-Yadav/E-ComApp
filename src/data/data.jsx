@@ -5,7 +5,7 @@ export const category = [
   },
   {
     id: 2,
-    name: "mens's clothing",
+    name: "men's clothing",
   },
   {
     id: 3,

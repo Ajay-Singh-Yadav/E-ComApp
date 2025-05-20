@@ -2,6 +2,12 @@ import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 
 const ProductCard = ({product}) => {
+  const getShortTitle = (title, limit = 20) => {
+    if (product.title.length > limit) {
+      return product.title.slice(0, 20) + '...';
+    }
+    return product.title;
+  };
   return (
     <View style={styles.card}>
       <Image
@@ -9,7 +15,7 @@ const ProductCard = ({product}) => {
         style={styles.image}
         resizeMode="contain"
       />
-      <Text style={styles.title}>{product.title}</Text>
+      <Text style={styles.title}>{getShortTitle(product.title)}</Text>
       <Text style={styles.price}>₹{product.price}</Text>
     </View>
   );

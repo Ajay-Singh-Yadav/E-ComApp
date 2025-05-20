@@ -2,8 +2,8 @@ import {Button, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 
 import SearchBar from '../components/SearchBar';
-import Categories from '../components/Categories';
 import ProductList from '../components/ProductList';
+import CategoryFilter, {CategoryList} from '../components/Categories';
 
 const HomeScreen = () => {
   return (
@@ -14,9 +14,7 @@ const HomeScreen = () => {
         barStyle="dark-content"
       />
       <SearchBar />
-
-      <Categories />
-
+      <CategoryList />
       <ProductList />
     </View>
   );

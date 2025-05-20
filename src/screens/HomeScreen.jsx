@@ -1,15 +1,26 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import LinearGradient from 'react-native-linear-gradient';
+import {useDispatch, useSelector} from 'react-redux';
+
+import {increment, decrement} from '../redux/Slice/counterSlice';
+
 const HomeScreen = () => {
+  const count = useSelector(state => state.counter.count);
+  const dispatch = useDispatch();
+
   return (
     <LinearGradient
       colors={['#4c669f', '#3b5998', '#192f6a']}
       style={styles.container}>
-      <FontAwesome name="search" size={30} color="black" />
-      <Text style={styles.text}>HomeScreen</Text>
+      <View>
+        <Text style={styles.text}>Count: {count}</Text>
+
+        <Button title="Increment" onPress={() => dispatch(increment())} />
+
+        <Button title="Decrement" onPress={() => dispatch(decrement())} />
+      </View>
     </LinearGradient>
   );
 };

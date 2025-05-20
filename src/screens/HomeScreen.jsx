@@ -1,27 +1,24 @@
-import {Button, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {Button, StatusBar, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
 
-import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch, useSelector} from 'react-redux';
-
-import {increment, decrement} from '../redux/Slice/counterSlice';
+import SearchBar from '../components/SearchBar';
+import Categories from '../components/Categories';
+import ProductList from '../components/ProductList';
 
 const HomeScreen = () => {
-  const count = useSelector(state => state.counter.count);
-  const dispatch = useDispatch();
-
   return (
-    <LinearGradient
-      colors={['#4c669f', '#3b5998', '#192f6a']}
-      style={styles.container}>
-      <View>
-        <Text style={styles.text}>Count: {count}</Text>
+    <View style={styles.container}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
+      <SearchBar />
 
-        <Button title="Increment" onPress={() => dispatch(increment())} />
+      <Categories />
 
-        <Button title="Decrement" onPress={() => dispatch(decrement())} />
-      </View>
-    </LinearGradient>
+      <ProductList />
+    </View>
   );
 };
 
@@ -30,11 +27,9 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginTop: 50,
   },
   text: {
-    fontFamily: 'TenorSans-Regular',
     fontSize: 30,
   },
 });

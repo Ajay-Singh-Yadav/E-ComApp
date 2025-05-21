@@ -1,32 +1,52 @@
 import React, {useState} from 'react';
 import {View, FlatList, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {category} from '../data/data';
-import {useDispatch} from 'react-redux';
-import {fetchProducts} from '../redux/Slice/productSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {setCategory} from '../redux/Slice/productSlice';
 
 export const CategoryList = () => {
   const dispatch = useDispatch();
-  const [selectedCategory, setSelectedCategory] = useState(1);
+  const products = useSelector(state => state.products.allProducts);
+  const selectedCategory = useSelector(
+    state => state.products.selectedCategory,
+  );
 
-  const handleSearch = (name, id) => {
-    setSelectedCategory(id);
-    dispatch(fetchProducts(name));
+  const uniqueCategories = ['All', ...new Set(products.map(p => p.category))];
+  const categories = uniqueCategories.map((name, index) => ({
+    id: index,
+    name,
+  }));
+  const handleCategoryPress = name => {
+    dispatch(setCategory(name));
   };
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={category}
+        data={categories}
         keyExtractor={item => item.id.toString()}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.list}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            onPress={() => handleSearch(item.name, item.id)}
-            style={styles.categoryItem}>
-            <Text style={styles.categoryText}>{item.name}</Text>
-          </TouchableOpacity>
-        )}
+        renderItem={({item}) => {
+          const isSelected = item.id === selectedCategory;
+
+          return (
+            <TouchableOpacity
+              onPress={() => handleCategoryPress(item.name)}
+              style={[
+                styles.categoryItem,
+                isSelected && styles.selectedCategoryItem,
+              ]}>
+              <Text
+                style={[
+                  styles.categoryText,
+                  isSelected && styles.selectedCategoryText,
+                ]}>
+                {item.name}
+              </Text>
+            </TouchableOpacity>
+          );
+        }}
       />
     </View>
   );

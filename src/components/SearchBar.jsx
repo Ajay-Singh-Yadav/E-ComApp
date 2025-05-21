@@ -1,8 +1,12 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useDispatch} from 'react-redux';
+import {setSearchQuery} from '../redux/Slice/productSlice';
 
 const SearchBar = () => {
+  const dispatch = useDispatch();
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Ajio</Text>
@@ -13,6 +17,7 @@ const SearchBar = () => {
           placeholder="Search..."
           placeholderTextColor="#888"
           style={styles.input}
+          onChangeText={text => dispatch(setSearchQuery(text))}
         />
       </View>
     </View>

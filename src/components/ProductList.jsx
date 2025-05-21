@@ -1,38 +1,67 @@
-import React, {useEffect} from 'react';
-import {FlatList, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchProducts} from '../redux/Slice/productSlice';
+// src/components/ProductList.js
 
-import ProductCard from '../components/ProductCard';
-import Loader from '../components/Loader';
-import ErrorView from '../components/ErrorView';
+import React from 'react';
+import {useSelector} from 'react-redux';
+import {
+  FlatList,
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
+import ProductCard from './ProductCard';
+
+const {width} = Dimensions.get('window');
+const itemWidth = width / 2 - 20;
 
 const ProductList = () => {
-  const dispatch = useDispatch();
-  const {items, loading, error} = useSelector(state => state.products);
-
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
-
-  if (loading) return <Loader />;
-  if (error) return <ErrorView message={error} />;
+  const products = useSelector(state => state.products.filteredProducts);
 
   return (
-    <View style={{width: '100%', marginBottom: 10}}>
-      <FlatList
-        data={items}
-        numColumns={2}
-        keyExtractor={item => item.id.toString()}
-        contentContainerStyle={{padding: 10}}
-        renderItem={({item}) => (
-          <View style={{width: '45%', marginBottom: 15}}>
-            <ProductCard product={item} />
-          </View>
-        )}
-      />
-    </View>
+    <FlatList
+      data={products}
+      keyExtractor={item => item.id.toString()}
+      numColumns={2}
+      contentContainerStyle={styles.container}
+      columnWrapperStyle={styles.row}
+      renderItem={({item}) => <ProductCard product={item} />}
+    />
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+  },
+  row: {
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  card: {
+    width: itemWidth,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 10,
+    elevation: 3,
+    alignItems: 'center',
+  },
+  image: {
+    width: '100%',
+    height: 150,
+    borderRadius: 10,
+    resizeMode: 'cover',
+  },
+  title: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 5,
+    textAlign: 'center',
+  },
+  price: {
+    fontSize: 13,
+    color: 'gray',
+  },
+});
 
 export default ProductList;

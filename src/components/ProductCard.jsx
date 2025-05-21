@@ -1,5 +1,8 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
+
+const {width} = Dimensions.get('window');
+const itemWidth = width / 2 - 20;
 
 const ProductCard = ({product}) => {
   const getShortTitle = (title, limit = 20) => {
@@ -23,15 +26,29 @@ const ProductCard = ({product}) => {
 
 const styles = StyleSheet.create({
   card: {
-    padding: 10,
-    marginBottom: 15,
+    width: itemWidth,
     backgroundColor: '#fff',
     borderRadius: 10,
+    padding: 10,
     elevation: 3,
+    alignItems: 'center',
   },
-  image: {width: '100%', height: 150},
-  title: {fontSize: 16, fontWeight: '600', marginTop: 10},
-  price: {fontSize: 14, color: 'green', marginTop: 5},
+  image: {
+    width: '100%',
+    height: 150,
+    borderRadius: 10,
+    resizeMode: 'cover',
+  },
+  title: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginTop: 5,
+    textAlign: 'center',
+  },
+  price: {
+    fontSize: 13,
+    color: 'gray',
+  },
 });
 
 export default ProductCard;

@@ -1,52 +1,33 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import axios from 'axios';
+import {createSlice} from '@reduxjs/toolkit';
 
-// Async thunk to fetch products
-// export const fetchProducts = createAsyncThunk(
-//   'products/fetchProducts',
-//   async () => {
-//     const response = await axios.get('https://fakestoreapi.com/products');
-//     return response.data;
-//   },
-// );
-
-export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
-  async category => {
-    const url =
-      category === 'All'
-        ? 'https://fakestoreapi.com/products?limit=20'
-        : `https://fakestoreapi.com/products/category/${category}`;
-
-    const response = await axios.get(url);
-
-    return response.data;
-  },
-);
+const initialState = {
+  allProducts: [],
+  filteredProducts: [],
+  selectedCategory: 'All',
+};
 
 const productSlice = createSlice({
   name: 'products',
-  initialState: {
-    items: [],
-    loading: false,
-    error: null,
-  },
-  reducers: {},
-  extraReducers: builder => {
-    builder
-      .addCase(fetchProducts.pending, state => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.loading = false;
-        state.items = action.payload;
-      })
-      .addCase(fetchProducts.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      });
+  initialState,
+  reducers: {
+    setProducts(state, action) {
+      state.allProducts = action.payload;
+      state.filteredProducts = action.payload; // initially all products
+    },
+    setCategory(state, action) {
+      state.selectedCategory = action.payload;
+
+      if (action.payload === 'All') {
+        state.filteredProducts = state.allProducts;
+      } else {
+        state.filteredProducts = state.allProducts.filter(
+          product => product.category === action.payload,
+        );
+      }
+    },
   },
 });
+
+export const {setProducts, setCategory} = productSlice.actions;
 
 export default productSlice.reducer;

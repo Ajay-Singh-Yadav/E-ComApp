@@ -5,22 +5,34 @@ export const category = [
   },
   {
     id: 2,
-    name: "men's clothing",
+    name: "Men's",
   },
   {
     id: 3,
-    name: "women's clothing",
+    name: "women's",
   },
   {
     id: 4,
-    name: 'jewelery',
+    name: 'Jewelery',
   },
   {
     id: 5,
-    name: 'electronics',
+    name: 'Electronics',
   },
   {
     id: 6,
     name: 'Accessories',
+  },
+  {
+    id: 7,
+    name: 'SmartPhone',
+  },
+  {
+    id: 8,
+    name: 'Laptops',
+  },
+  {
+    id: 9,
+    name: 'Perfumes',
   },
 ];
